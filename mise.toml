@@ -1,5 +1,5 @@
 [tools]
 bun = "latest"
-fly = "latest"
-uv = "latest"
-wrangler = "latest"
+codex = "latest"
+firebase = "latest"
+yarn = "latest"

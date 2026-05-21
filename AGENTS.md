@@ -76,5 +76,6 @@ Do not commit secrets, Firebase credentials beyond intended public client config
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan
+shell commands, and other important information, read
+`specs/001-game-platform-features/plan.md`
 <!-- SPECKIT END -->
