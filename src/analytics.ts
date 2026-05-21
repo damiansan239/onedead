@@ -1,12 +1,14 @@
-import {logEvent} from "firebase/analytics";
+import { logEvent } from "firebase/analytics";
 
-import {analytics} from "./firebase";
+import { analytics } from "./firebase";
 
 class AppAnalytics {
   public static startedGame(gameId: string, mainCode: string) {
     const event = "started_game";
 
-    analytics && logEvent(analytics, event, {
+    if (!analytics) return;
+
+    logEvent(analytics, event, {
       gameId,
       mainCode,
       startTime: Date.now(),
@@ -14,17 +16,23 @@ class AppAnalytics {
   }
 
   public static share() {
-    analytics && logEvent(analytics, "share");
+    if (!analytics) return;
+
+    logEvent(analytics, "share");
   }
 
   public static replayGame() {
-    analytics && logEvent(analytics, "replay_game");
+    if (!analytics) return;
+
+    logEvent(analytics, "replay_game");
   }
 
   public static winGame(gameId: string, mainCode: string, numOfTrials: string) {
     const event = "started_game";
 
-    analytics && logEvent(analytics, event, {
+    if (!analytics) return;
+
+    logEvent(analytics, event, {
       gameId,
       mainCode,
       numOfTrials,

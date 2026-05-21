@@ -2,15 +2,15 @@
 
 ## Project Structure & Module Organization
 
-This is a Bun workspace with app packages under `apps/*`.
+This repository is a single Vite React application managed with Bun. Source code lives in `src/`.
 
-- `apps/web/`: React + Vite frontend. Main code lives in `apps/web/src/`.
-- `apps/web/src/components/`: UI components such as `Game`, `History`, and modal components.
-- `apps/web/src/game/`: game domain logic, session state, and shared game types.
-- `apps/web/src/services/`: browser-facing services such as page visibility handling.
-- `apps/web/public/`: static web assets including icons and favicons.
-- `apps/api/`: Cloudflare Worker API using Hono. Entry point is `apps/api/src/index.ts`.
-- `apps/web/old/`: legacy Vite/React scaffold files; avoid extending unless intentionally migrating old code.
+- `src/components/`: React UI components such as `Game`, `History`, modals, and ad/profile UI.
+- `src/game/`: game domain logic, session state, scoring, and shared game types. Keep gameplay rules here, not in components.
+- `src/services/`: browser-facing services such as page visibility and Firebase-backed feature services.
+- `src/repository.ts`, `src/firebase.ts`, `src/analytics.ts`: persistence, Firebase setup, and analytics integration.
+- `public/`: static assets served by Vite.
+- `firebase/`, `firebase.json`: Firebase Hosting and deployment config.
+- `specs/001-game-platform-features/`: Spec Kit planning, contracts, and task artifacts for feature-sized work.
 
 ## Build, Test, and Development Commands
 
@@ -20,59 +20,56 @@ Install dependencies from the repository root:
 bun install
 ```
 
-Run the web app locally:
+Run the local development server:
 
 ```bash
-bun --cwd apps/web run dev
+bun run dev
 ```
 
-Build the web app:
+Build TypeScript and the production Vite bundle:
 
 ```bash
-bun --cwd apps/web run build
+bun run build
 ```
 
-Lint the web app:
+Run ESLint:
 
 ```bash
-bun --cwd apps/web run lint
+bun run lint
 ```
 
-Run the API worker locally:
+Preview a production build locally:
 
 ```bash
-bun --cwd apps/api run dev
-```
-
-Deploy the API worker:
-
-```bash
-bun --cwd apps/api run deploy
+bun run preview
 ```
 
 ## Coding Style & Naming Conventions
 
-Use TypeScript and ES modules throughout. Frontend components use `.tsx` and PascalCase filenames, for example `Game.tsx`. Utility, service, and domain files use camelCase or lower-case names, for example `pageVisibility.ts`, `repository.ts`, and `manager.ts`.
+Use TypeScript, ES modules, React function components, and hooks. Components use `.tsx` with PascalCase filenames, for example `Game.tsx`. Utilities, services, and domain files use camelCase or lower-case names, for example `pageVisibility.ts`, `repository.ts`, and `manager.ts`.
 
-Prefer React function components and hooks for UI code. Keep game rules in `apps/web/src/game/` rather than embedding them in components. The web app uses ESLint via `apps/web/eslint.config.js`; run linting before submitting changes.
+Keep UI rendering in `src/components/`, shared game behavior in `src/game/`, and Firebase/service integration outside components where practical. Use `eslint.config.js`; run linting before submitting changes.
 
 ## Testing Guidelines
 
-No test framework or test scripts are currently configured. For logic-heavy changes, add focused tests alongside the code or in a nearby test directory if a runner is introduced. Use clear names such as `session.test.ts` or `manager.spec.ts`. At minimum, run `bun --cwd apps/web run build` and `bun --cwd apps/web run lint` before opening a PR.
+No dedicated test script is currently configured. At minimum, run:
 
-Feature-sized work must also satisfy `.specify/memory/constitution.md`,
-including explicit verification for each user story, UI consistency checks for
-visible changes, and performance budgets for user-visible work.
+```bash
+bun run build
+bun run lint
+```
+
+For logic-heavy work, add focused tests near the relevant code if a runner is introduced. Use names such as `session.test.ts`, `manager.spec.ts`, or `scoring.test.ts`. Feature-sized changes should also follow `.specify/memory/constitution.md`, including user-story verification, UI consistency checks, and performance checks.
 
 ## Commit & Pull Request Guidelines
 
-This checkout does not include git history, so no existing commit convention can be verified. Use short, imperative commit messages such as `Add game history modal` or `Fix timer pause behavior`.
+Recent history uses short messages such as `Update`; prefer descriptive imperative messages like `Add game history modal` or `Fix timer pause behavior`.
 
-Pull requests should include a concise description, testing performed, and screenshots or recordings for UI changes. Link related issues when available and call out configuration, deployment, or data-storage changes.
+Pull requests should include a summary, testing performed, linked issues when applicable, and screenshots or recordings for UI changes. Call out Firebase, hosting, security rules, or data-storage changes.
 
 ## Security & Configuration Tips
 
-Do not commit secrets, Firebase credentials beyond intended public client config, or Cloudflare tokens. Keep deployment-specific settings in Wrangler, Firebase, or environment-managed configuration rather than hard-coding them in source files.
+Do not commit secrets, private Firebase credentials, Cloudflare tokens, or environment-specific deployment values. Keep sensitive deployment values in Firebase-managed or environment configuration.
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,

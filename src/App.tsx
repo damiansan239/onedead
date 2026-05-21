@@ -17,7 +17,9 @@ import StartModal from "./components/startModal";
 import PageVisibilityService from "./services/pageVisibility";
 import MyModal from "./components/modalDialog";
 import Game from "./components/Game";
+import HomeScreen from "./components/HomeScreen";
 import History from "./components/History";
+import HighScoresPage from "./components/HighScoresPage";
 
 
 const App = (): React.ReactElement => {
@@ -45,10 +47,61 @@ const App = (): React.ReactElement => {
   const [gameName, setGameName] = React.useState<string | null>(null);
   const [shouldClear, setShouldClear] = React.useState<boolean>(false);
   const [showHistory, setShowHistory] = React.useState<boolean>(false);
+  const [showHome, setShowHome] = React.useState<boolean>(true);
+  const [showHighScores, setShowHighScores] = React.useState<boolean>(false);
   const [showModalDialog, setShowModalDialog] = React.useState<boolean>(false);
 
   const pageVisibility = React.useMemo(() => new PageVisibilityService(), []);
   const manager = React.useMemo(() => gameName ? new Manager(gameName) : null, [gameName]);
+
+  const playTestCode = React.useCallback((state: string) => {
+    setError(null);
+    manager?.play(state);
+  }, [manager]);
+
+  const enterCharacter = React.useCallback((char: string) => {
+    if (shouldClear) {
+      dispatch({ type: "clear" });
+      setShouldClear(false);
+    }
+    dispatch({ type: "input", value: char });
+  }, [shouldClear]);
+
+  const clear = React.useCallback(() => {
+    dispatch({ type: "clear" });
+  }, []);
+
+  const startGame = React.useCallback(() => {
+    setError(null);
+    setResult(null);
+    setTimeElapsed(0);
+    setShowHistory(false);
+    setShowModal(false);
+    setShowModalDialog(false);
+    setShouldClear(false);
+    dispatch({ type: "clear" });
+    setGameName(generateName());
+    setStarted(true);
+    setShowHome(false);
+    setShowHighScores(false);
+  }, []);
+
+  const continueGame = React.useCallback(() => {
+    if (!manager) return;
+
+    setStarted(true);
+    setShowHome(false);
+    setShowHighScores(false);
+  }, [manager]);
+
+  const playMultiplayer = React.useCallback(() => {
+    window.alert("Multiplayer is coming soon.");
+  }, []);
+
+  const openHighScores = React.useCallback(() => {
+    setShowHighScores(true);
+    setShowHome(false);
+  }, []);
 
 
   React.useEffect(() => {
@@ -93,9 +146,23 @@ const App = (): React.ReactElement => {
       unSubTimerState();
       unSubPageVisibility();
     };
-  }, [manager]);
+  }, [manager, pageVisibility]);
 
   React.useEffect(() => {
+    if (showHome) {
+      const l = (e: KeyboardEvent) => {
+        if (e.key === "Enter" && !showHistory) {
+          startGame();
+        }
+      };
+
+      document.addEventListener("keydown", l);
+
+      return () => {
+        document.removeEventListener("keydown", l);
+      };
+    }
+
     if (!manager) {
       const l = (e: KeyboardEvent) => {
         const val = e.key;
@@ -138,24 +205,7 @@ const App = (): React.ReactElement => {
     return () => {
       document.removeEventListener("keydown", l);
     };
-  }, [manager, state, dispatch, shouldClear, showHistory, started]);
-
-  const playTestCode = (state: string) => {
-    setError(null);
-    manager?.play(state);
-  };
-
-  const enterCharacter = (char: string) => {
-    if (shouldClear) {
-      dispatch({ type: "clear" });
-      setShouldClear(false);
-    }
-    dispatch({ type: "input", value: char });
-  };
-
-  const clear = () => {
-    dispatch({ type: "clear" });
-  };
+  }, [clear, enterCharacter, manager, playTestCode, showHistory, showHome, startGame, state]);
 
   const shareApp = () => {
     if (navigator["share"]) {
@@ -174,11 +224,6 @@ const App = (): React.ReactElement => {
     return `${minutes}:${seconds}`;
   };
 
-  const startGame = () => {
-    setGameName(generateName());
-    setStarted(true);
-  };
-
   const numOfTrials = manager?.getGameHistory().trials.length;
 
   const replayGame = () => {
@@ -194,8 +239,26 @@ const App = (): React.ReactElement => {
     }
   }, []);
 
+  if (showHighScores) {
+    return (
+      <HighScoresPage onBack={() => { setShowHighScores(false); setShowHome(true); }} />
+    );
+  }
+
+  if (showHome) {
+    return (
+      <HomeScreen
+        canContinue={Boolean(manager)}
+        onContinueGame={continueGame}
+        onPlayMultiplayer={playMultiplayer}
+        onStartNewGame={startGame}
+        onHighScores={openHighScores}
+      />
+    );
+  }
+
   return (
-    <div className="flex justify-center items-center w-screen h-screen">
+    <div className="flex bg-gray-100 justify-center items-center w-screen h-screen">
       <div className="hidden md:block h-screen flex-1">
         <ins className="adsbygoogle"
           style={{ display: "block" }}
@@ -205,7 +268,7 @@ const App = (): React.ReactElement => {
           data-full-width-responsive="true">
         </ins>
       </div>
-      <div id="app" className="flex flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-6/12">
+      <div className="flex bg-white flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-5/12">
         <div className="flex justify-between items-center h-10">
           <button
             type="button"
@@ -228,15 +291,13 @@ const App = (): React.ReactElement => {
               {computeTime(timeElapsed)}
             </div>
 
-            {true &&
-              <button
-                type="button"
-                onClick={() => setShowHistory(value => !value)}
-                className="inline-flex justify-center rounded-md px-3 py-1 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-              >
-                History
-              </button>
-            }
+            <button
+              type="button"
+              onClick={() => setShowHistory(value => !value)}
+              className="inline-flex justify-center rounded-md px-3 py-1 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            >
+              History
+            </button>
           </div>
         </div>
 

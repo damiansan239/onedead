@@ -20,31 +20,31 @@ interface ModalDialogProps {
   onClickInstructions?: () => void;
 }
 
+interface ButtonProps {
+  label: string;
+  icon: React.ReactElement;
+  onClick?: () => void;
+}
+
+const Button = ({icon, label, onClick}: ButtonProps): React.ReactElement => {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="flex flex-col gap-1 justify-center items-center rounded-md px-3 py-1 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+    >
+      {icon}
+
+      {label}
+    </button>
+  );
+};
+
 const ModalDialog = ({show, isPaused, setShow, onClickPause, onClickReset, onClickInstructions}: ModalDialogProps): React.ReactElement => {
 
   function closeModal() {
     setShow(false);
   }
-
-  interface ButtonProps {
-    label: string;
-    icon: React.ReactElement;
-    onClick?: () => void;
-  }
-
-  const Button = ({icon, label, onClick}: ButtonProps): React.ReactElement => {
-    return (
-      <button
-        type="button"
-        onClick={onClick}
-        className="flex flex-col gap-1 justify-center items-center rounded-md px-3 py-1 h-32 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-      >
-        {icon}
-
-        {label}
-      </button>
-    );
-  };
 
   React.useEffect(() => {
     window.PayPal.Donation.Button({
