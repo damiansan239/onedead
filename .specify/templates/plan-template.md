@@ -40,7 +40,19 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Code Quality**: Document affected workspace paths and confirm game rules,
+  browser services, UI components, and API behavior remain in their proper
+  ownership boundaries.
+- **Testing**: Define verification for each user story. Logic-heavy changes
+  MUST include focused automated tests when available, or justify the minimal
+  runner/manual strategy.
+- **User Experience**: List affected UI states, accessibility expectations,
+  responsive behavior, and visual consistency requirements.
+- **Performance**: State the expected performance budget for user-visible work,
+  including render responsiveness, browser storage/network behavior, or API
+  latency and payload expectations.
+- **Simplicity**: Identify any new abstraction, dependency, shared state, or
+  cross-boundary coupling and justify why it is the smallest safe design.
 
 ## Project Structure
 

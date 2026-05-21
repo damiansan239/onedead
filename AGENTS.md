@@ -60,6 +60,10 @@ Prefer React function components and hooks for UI code. Keep game rules in `apps
 
 No test framework or test scripts are currently configured. For logic-heavy changes, add focused tests alongside the code or in a nearby test directory if a runner is introduced. Use clear names such as `session.test.ts` or `manager.spec.ts`. At minimum, run `bun --cwd apps/web run build` and `bun --cwd apps/web run lint` before opening a PR.
 
+Feature-sized work must also satisfy `.specify/memory/constitution.md`,
+including explicit verification for each user story, UI consistency checks for
+visible changes, and performance budgets for user-visible work.
+
 ## Commit & Pull Request Guidelines
 
 This checkout does not include git history, so no existing commit convention can be verified. Use short, imperative commit messages such as `Add game history modal` or `Fix timer pause behavior`.

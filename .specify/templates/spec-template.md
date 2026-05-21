@@ -103,6 +103,18 @@
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
+### Quality Requirements *(mandatory)*
+
+- **QR-001**: Code changes MUST preserve the repository ownership boundaries
+  between game domain logic, UI components, browser services, and API code.
+- **QR-002**: Each user story MUST define an independently executable
+  verification path before implementation.
+- **QR-003**: User-facing changes MUST specify expected empty, loading, error,
+  paused, success, keyboard, pointer, and responsive states when applicable.
+- **QR-004**: User-visible work MUST define measurable performance expectations,
+  such as responsiveness, latency, payload size, storage behavior, or offline
+  handling.
+
 ## Success Criteria *(mandatory)*
 
 <!--

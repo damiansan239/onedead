@@ -15,6 +15,7 @@
   - Feature requirements from spec.md
   - Technical context from plan.md
   - Implementation details from tasks.md
+  - Constitution principles for code quality, testing, UX consistency, and performance
   
   DO NOT keep these sample items in the generated checklist file.
   ============================================================================
