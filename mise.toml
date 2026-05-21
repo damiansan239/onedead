@@ -1,0 +1,5 @@
+[tools]
+bun = "latest"
+fly = "latest"
+uv = "latest"
+wrangler = "latest"

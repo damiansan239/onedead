@@ -1,0 +1,242 @@
+/* eslint-disable no-constant-condition */
+
+import Session from "./session";
+import type { IHistory, Result } from "./types";
+
+
+const generateMainCode = () => {
+  return (Math.floor(1000 + (9999 - 1000) * Math.random())).toFixed();
+};
+
+
+type Unsubscribe = () => void;
+
+
+class Stopwatch {
+  private elapsedTime = 0;
+  private readonly interval = 1000;
+  private timer: ReturnType<typeof setTimeout> | null = null;
+
+  private listeners: Array<(period: number) => void> = [];
+  private stateChangeListeners: Array<(state: boolean) => void> = [];
+
+
+  public start() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
+
+    this.timer = setInterval(() => {
+      this.elapsedTime += 1;
+      this.dispatch(this.elapsedTime);
+    }, this.interval);
+    this.dispatchTimerState(true);
+  }
+
+  public stop() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+      this.dispatchTimerState(false);
+    }
+  }
+
+  public addTimerStateListener(listener: (state: boolean) => void): Unsubscribe {
+    this.stateChangeListeners.push(listener);
+    return () => {
+      this.stateChangeListeners = this
+        .stateChangeListeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  public addListener(listener: (period: number) => void): Unsubscribe {
+    this.listeners.push(listener);
+    return () => {
+      this.listeners = this
+        .listeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  private dispatch(period: number) {
+    for (const listener of this.listeners) {
+      listener(period);
+    }
+  }
+
+  private dispatchTimerState(state: boolean) {
+    for (const listener of this.stateChangeListeners) {
+      listener(state);
+    }
+  }
+
+  public reset() {
+    this.elapsedTime = 0;
+  }
+
+  public getElapsedTime() {
+    return this.elapsedTime;
+  }
+
+  public pause() {
+    this.stop();
+  }
+
+  public resume() {
+    this.start();
+  }
+
+  public isPaused() {
+    return this.timer === null;
+  }
+
+  public toggle(): boolean {
+    if (this.timer) {
+      this.stop();
+      return false;
+    } else {
+      this.start();
+      return true;
+    }
+  }
+
+}
+
+
+class Manager {
+  private readonly startTime: Date;
+  private readonly session: Session;
+
+  private gameStopWatch = new Stopwatch();
+  private errorListeners: Array<(error: Error) => void> = [];
+  private timerListeners: Array<(period: number) => void> = [];
+  private trialListeners: Array<(result: Result) => void> = [];
+  private completeListeners: Array<(history: IHistory) => void> = [];
+
+  constructor(name: string) {
+    while (true) {
+      try {
+        this.startTime = new Date();
+        const mainCode = generateMainCode();
+        this.session = new Session(name, this.startTime, mainCode);
+        this.startGameTimer();
+        break;
+      } catch {
+        continue;
+      }
+    }
+  }
+
+  public play(testCode: string) {
+    try {
+      const res = this.session.addTrial(testCode, this.gameStopWatch.getElapsedTime());
+      this.dispatchTrial(res);
+
+      if (this.session.isComplete()) {
+        this.stopGameTimer();
+        this.dispatchComplete();
+      }
+    } catch (e) {
+      this.dispatchError(e as Error);
+    }
+  }
+
+  public getGameHistory() {
+    return this.session.getHistory();
+  }
+
+  public pauseTimer() {
+    this.gameStopWatch.pause();
+  }
+
+  public resumeTimer() {
+    this.gameStopWatch.resume();
+  }
+
+  public isPaused(): boolean {
+    return this.gameStopWatch.isPaused();
+  }
+
+  public toggleTimer(): boolean {
+    return this.gameStopWatch.toggle();
+  }
+
+  public addTimerListener(listener: (period: number) => void): Unsubscribe {
+    this.timerListeners.push(listener);
+    return () => {
+      this.timerListeners = this
+        .timerListeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  public addTimerStateListener(listener: (state: boolean) => void): Unsubscribe {
+    return this.gameStopWatch.addTimerStateListener(listener);
+  }
+
+  public addErrorListener(listener: (result: Error) => void): Unsubscribe {
+    this.errorListeners.push(listener);
+    return () => {
+      this.errorListeners = this
+        .errorListeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  public addTrialListener(listener: (result: Result) => void): Unsubscribe {
+    this.trialListeners.push(listener);
+    return () => {
+      this.trialListeners = this
+        .trialListeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  public addCompleteListener(listener: (history: IHistory) => void): Unsubscribe {
+    this.completeListeners.push(listener);
+    return () => {
+      this.completeListeners = this
+        .completeListeners
+        .filter((item) => item !== listener);
+    };
+  }
+
+  private startGameTimer() {
+    this.gameStopWatch.start();
+    this.gameStopWatch.addListener((period) => {
+      this.dispatchTimer(period);
+    });
+  }
+
+  private stopGameTimer() {
+    this.gameStopWatch.stop();
+  }
+
+  private dispatchTimer(duration: number) {
+    for (const listener of this.timerListeners) {
+      listener(duration);
+    }
+  }
+
+  private dispatchError(error: Error) {
+    for (const listener of this.errorListeners) {
+      listener(error);
+    }
+  }
+
+  private dispatchTrial(result: Result) {
+    for (const listener of this.trialListeners) {
+      listener(result);
+    }
+  }
+
+  private dispatchComplete() {
+    for (const listener of this.completeListeners) {
+      listener(this.session.getHistory());
+    }
+  }
+}
+
+
+export default Manager;
