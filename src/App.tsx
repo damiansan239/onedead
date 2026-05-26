@@ -5,25 +5,23 @@
 
 import React from "react";
 
-import { customAlphabet } from "nanoid";
+import { customAlphabet } from "nanoid/non-secure";
 
-import Manager from "@/game/manager";
-import { AppAction, AppState, Result } from "@/game/types";
-
-import AppAnalytics from "./analytics";
-import { sessionRepository } from "./repository";
-import Modal from "./components/completeModal";
-import StartModal from "./components/startModal";
-import PageVisibilityService from "./services/pageVisibility";
-import MyModal from "./components/modalDialog";
 import Game from "./components/Game";
-import HomeScreen from "./components/HomeScreen";
+import Manager from "@/game/manager";
+import AppAnalytics from "./analytics";
 import History from "./components/History";
+import Modal from "./components/completeModal";
+import MyModal from "./components/modalDialog";
+import { sessionRepository } from "./repository";
+import StartModal from "./components/startModal";
+import HomeScreen from "./components/HomeScreen";
 import HighScoresPage from "./components/HighScoresPage";
+import { AppAction, AppState, Result } from "@/game/types";
+import PageVisibilityService from "./services/pageVisibility";
 
 
 const App = (): React.ReactElement => {
-
   const reducer = (state: AppState, action: AppAction): AppState => {
     switch (action.type) {
       case "input":
@@ -248,11 +246,11 @@ const App = (): React.ReactElement => {
   if (showHome) {
     return (
       <HomeScreen
-        canContinue={Boolean(manager)}
-        onContinueGame={continueGame}
-        onPlayMultiplayer={playMultiplayer}
         onStartNewGame={startGame}
         onHighScores={openHighScores}
+        onContinueGame={continueGame}
+        canContinue={Boolean(manager)}
+        onPlayMultiplayer={playMultiplayer}
       />
     );
   }
@@ -260,12 +258,14 @@ const App = (): React.ReactElement => {
   return (
     <div className="flex bg-gray-100 justify-center items-center w-screen h-screen">
       <div className="hidden md:block h-screen flex-1">
-        <ins className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-6676760040468778"
-          data-ad-slot="3571604024"
+        <ins
           data-ad-format="auto"
-          data-full-width-responsive="true">
+          className="adsbygoogle"
+          data-ad-slot="3571604024"
+          style={{ display: "block" }}
+          data-full-width-responsive="true"
+          data-ad-client="ca-pub-6676760040468778"
+        >
         </ins>
       </div>
       <div className="flex bg-white flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-5/12">
@@ -333,9 +333,9 @@ const App = (): React.ReactElement => {
           data-ad-format="fluid"
           className="adsbygoogle"
           data-ad-slot="5362934512"
+          style={{ display: "block" }}
           data-ad-layout-key="-fb+5w+4e-db+86"
           data-ad-client="ca-pub-6676760040468778"
-          style={{ display: "block" }}
         >
         </ins>
         {/*

@@ -1,1 +1,63 @@
+@import url('https://fonts.cdnfonts.com/css/ds-digital');
 @import "tailwindcss";
+
+@theme {
+  --font-lcd: 'DS-Digital', monospace;
+}
+
+/* Plain white display with a curved glass shadow gradient */
+.glass-display {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.04),
+    0 8px 10px -6px rgba(0, 0, 0, 0.02);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Responsive curved glass shadow gradient that adapts perfectly to the container's box */
+.glass-display::after {
+  content: "";
+  position: absolute;
+  inset: 0; /* perfectly adapts to the container's box */
+  background: radial-gradient(
+    ellipse at 30% -10%,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.8) 55%,
+    rgba(0, 0, 0, 0.035) 55.5%,
+    rgba(0, 0, 0, 0.01) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Clean dark-slate digital LCD quartz font */
+.lcd-display-text {
+  font-family: 'DS-Digital', monospace;
+  color: #0f172a; /* Slate 900 digital ink */
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  z-index: 2;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Modern status display subtext */
+.lcd-subtext {
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #475569; /* Slate 600 */
+  z-index: 2;
+}
+
+.lcd-subtext-error {
+  font-family: monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #dc2626; /* Red 600 */
+  z-index: 2;
+}

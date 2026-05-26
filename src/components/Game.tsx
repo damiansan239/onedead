@@ -9,8 +9,8 @@ interface GameProps {
   clear: () => void;
   error: Error | null;
   result: Result | null;
-  playTestCode: (state: AppState) => void;
   enterCharacter: (char: string) => void;
+  playTestCode: (state: AppState) => void;
 }
 
 
@@ -18,9 +18,21 @@ const Game = ({ error, state, result, clear, playTestCode, enterCharacter }: Gam
 
   return (
     <div id="game" className="flex flex-col grow gap-4">
-      <div className="border-2 border-gray-300 m-1 gap-4 rounded-md h-1/3 text-center flex flex-col justify-center content-center">
-        <div className="text-8xl">{state}</div>
-        <div>{error ? String(error) : result && formatResult(result)}</div>
+      <div className="m-1 rounded-xl h-1/3 border-2 border-gray-200 flex flex-col justify-center items-center relative overflow-hidden select-none">
+        <div className="flex flex-col bg-linear-to-b from-white via-95% via-gray-200 to-gray-200 justify-center items-center w-full h-full relative z-10 gap-3 p-4">
+          <div className="text-7xl sm:text-8xl lcd-display-text select-none">
+            {state}
+          </div>
+          <div className="h-6 flex items-center justify-center">
+            {error ? (
+              <div className="lcd-subtext-error">{String(error.message || error)}</div>
+            ) : result ? (
+              <div className="lcd-subtext">{formatResult(result)}</div>
+            ) : (
+              <div className="lcd-subtext text-slate-400 uppercase text-xs tracking-widest font-semibold select-none">Ready for code</div>
+            )}
+          </div>
+        </div>
       </div>
 
       <div className="h-2/3 grid grid-cols-3 gap-4">

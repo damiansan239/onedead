@@ -17,31 +17,31 @@ This repository is a single Vite React application managed with Bun. Source code
 Install dependencies from the repository root:
 
 ```bash
-bun install
+yarn install
 ```
 
 Run the local development server:
 
 ```bash
-bun run dev
+yarn dev
 ```
 
 Build TypeScript and the production Vite bundle:
 
 ```bash
-bun run build
+yarn build
 ```
 
 Run ESLint:
 
 ```bash
-bun run lint
+yarn lint
 ```
 
 Preview a production build locally:
 
 ```bash
-bun run preview
+yarn preview
 ```
 
 ## Coding Style & Naming Conventions
@@ -55,8 +55,8 @@ Keep UI rendering in `src/components/`, shared game behavior in `src/game/`, and
 No dedicated test script is currently configured. At minimum, run:
 
 ```bash
-bun run build
-bun run lint
+yarn build
+yarn lint
 ```
 
 For logic-heavy work, add focused tests near the relevant code if a runner is introduced. Use names such as `session.test.ts`, `manager.spec.ts`, or `scoring.test.ts`. Feature-sized changes should also follow `.specify/memory/constitution.md`, including user-story verification, UI consistency checks, and performance checks.
