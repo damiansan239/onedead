@@ -329,16 +329,16 @@ const App = (): React.ReactElement => {
             enterCharacter={enterCharacter}
           />
         )}
-          <ins
-     	    data-ad-format="fluid"
-            className="adsbygoogle"
-            data-ad-slot="5362934512"
-            data-ad-layout-key="-fb+5w+4e-db+86"
-            data-ad-client="ca-pub-6676760040468778"
-            style={{ display: "block" }}
-          >
-          </ins>
-{/*
+        <ins
+          data-ad-format="fluid"
+          className="adsbygoogle"
+          data-ad-slot="5362934512"
+          data-ad-layout-key="-fb+5w+4e-db+86"
+          data-ad-client="ca-pub-6676760040468778"
+          style={{ display: "block" }}
+        >
+        </ins>
+        {/*
         <div className="block md:hidden h-[30vh]">
         </div>
 */}
