@@ -1,5 +1,3 @@
-/* eslint-disable no-constant-condition */
-
 import Session from "./session";
 import type { IHistory, Result } from "./types";
 

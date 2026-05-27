@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable indent  */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 
 
 import React from "react";
@@ -269,32 +267,31 @@ const App = (): React.ReactElement => {
         </ins>
       </div>
       <div className="flex bg-white flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-5/12">
-        <div className="flex justify-between items-center h-10">
+        <div className="flex justify-between items-center h-14 py-2">
           <button
             type="button"
             onClick={() => setShowModalDialog(value => !value)}
-            className="inline-flex justify-center rounded-md px-3 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+            className="relative inline-flex items-center justify-center gap-1.5 rounded-lg border border-stone-300 bg-linear-to-b from-white to-stone-100 px-3 py-1.5 text-sm font-extrabold tracking-wide text-stone-800 shadow-[0_1px_0_#c8c4be,0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] transition-all duration-150 ease-out hover:from-stone-50 hover:to-stone-200 active:translate-y-px active:shadow-[0_0px_0_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 select-none cursor-pointer"
           >
-            <span style={{ marginRight: "8px" }}>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+            <span className="text-stone-500 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2.5" stroke="currentColor" className="w-4 h-4">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             </span>
-
-            One dead
+            <span>One dead</span>
           </button>
-          <div className="flex gap-2">
-            <div className="inline-flex justify-center py-1 px-3 rounded-md ring-gray-300 ring-1 ">
+          <div className="flex items-center gap-2">
+            <div className="inline-flex justify-center items-center py-1.5 px-3 rounded-lg border border-stone-300/80 bg-stone-50 font-mono font-extrabold text-stone-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,0.9)] select-none text-sm">
               {numOfTrials || 0}
             </div>
-            <div className="inline-flex justify-center py-1 px-3 rounded-md ring-gray-300 ring-1 ">
+            <div className="inline-flex justify-center items-center py-1.5 px-3 rounded-lg border border-stone-300/80 bg-stone-50 font-mono font-extrabold text-stone-700 shadow-[inset_0_2px_4px_rgba(0,0,0,0.06),0_1px_0_rgba(255,255,255,0.9)] select-none text-sm">
               {computeTime(timeElapsed)}
             </div>
 
             <button
               type="button"
               onClick={() => setShowHistory(value => !value)}
-              className="inline-flex justify-center rounded-md px-3 py-1 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              className="relative inline-flex items-center justify-center rounded-lg border border-stone-300 bg-linear-to-b from-white to-stone-100 px-3 py-1.5 text-sm font-extrabold tracking-wide text-stone-800 shadow-[0_1px_0_#c8c4be,0_2px_4px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] transition-all duration-150 ease-out hover:from-stone-50 hover:to-stone-200 active:translate-y-px active:shadow-[0_0px_0_rgba(0,0,0,0.1),inset_0_1px_2px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 select-none cursor-pointer"
             >
               History
             </button>
