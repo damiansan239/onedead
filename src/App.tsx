@@ -3,6 +3,8 @@
 
 import React from "react";
 
+import { getAuth, signInWithCustomToken, onAuthStateChanged } from "firebase/auth";
+
 import { customAlphabet } from "nanoid/non-secure";
 
 import Game from "./components/Game";
@@ -44,6 +46,7 @@ const App = (): React.ReactElement => {
   const [shouldClear, setShouldClear] = React.useState<boolean>(false);
   const [showHistory, setShowHistory] = React.useState<boolean>(false);
   const [showHome, setShowHome] = React.useState<boolean>(true);
+  const [currentUser, setCurrentUser] = React.useState<string | null>(null);
   const [showHighScores, setShowHighScores] = React.useState<boolean>(false);
   const [showModalDialog, setShowModalDialog] = React.useState<boolean>(false);
 
@@ -98,6 +101,24 @@ const App = (): React.ReactElement => {
     setShowHighScores(true);
     setShowHome(false);
   }, []);
+
+  React.useEffect(() => {
+    onAuthStateChanged(getAuth(), (user) => {
+      if (user) {
+        setCurrentUser(user.uid);
+      } else {
+        fetch("https://us-central1-one-dead.cloudfunctions.net/generateUserToken")
+          .then(res => res.text())
+          .then(async (token) => {
+            const { user } = await signInWithCustomToken(getAuth(), token);
+            setCurrentUser(user.uid);
+          })
+          .catch(err => {
+            console.error("Error signing in with custom token:", err);
+          });
+      }
+    });
+  }, [currentUser]);
 
 
   React.useEffect(() => {

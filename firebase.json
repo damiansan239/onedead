@@ -40,8 +40,11 @@
         "*.local"
       ],
       "predeploy": [
-        "npm --prefix \"$RESOURCE_DIR\" run build"
+        "yarn --cwd \"$RESOURCE_DIR\" run build"
       ]
     }
-  ]
+  ],
+  "storage": {
+    "rules": "firebase/storage.rules"
+  }
 }
