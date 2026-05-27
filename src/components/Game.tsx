@@ -20,7 +20,7 @@ const Game = ({ error, state, result, clear, playTestCode, enterCharacter }: Gam
     <div id="game" className="flex flex-col grow gap-4">
       <div className="m-1 rounded-xl h-1/3 border-2 border-gray-200 flex flex-col justify-center items-center relative overflow-hidden select-none">
         <div className="flex flex-col bg-linear-to-b from-white via-95% via-gray-200 to-gray-200 justify-center items-center w-full h-full relative z-10 gap-3 p-4">
-          <div className="text-7xl sm:text-8xl lcd-display-text select-none">
+          <div className="text-8xl sm:text-8xl lcd-display-text select-none">
             {state}
           </div>
           <div className="h-6 flex items-center justify-center">
