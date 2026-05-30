@@ -27,7 +27,10 @@ setGlobalOptions({
   serviceAccount: "firebase-adminsdk-ly025@one-dead.iam.gserviceaccount.com",
 });
 
-export const generateUserToken = onRequest((request, response) => {
+
+export const generateUserToken = onRequest(
+  { cors: true },
+  (request, response) => {
     const uid = dockerNames.getRandomName();
 
     getAuth()

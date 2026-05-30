@@ -2,7 +2,7 @@ import React from "react";
 
 import Button from "./Button";
 import { formatResult } from "../utils";
-import { AppState, Result } from "@/game/types";
+import type { AppState, Result } from "@/game/types";
 
 interface GameProps {
   state: AppState;
@@ -13,23 +13,32 @@ interface GameProps {
   playTestCode: (state: AppState) => void;
 }
 
-
-const Game = ({ error, state, result, clear, playTestCode, enterCharacter }: GameProps): React.ReactElement => {
-
+const Game = ({
+  error,
+  state,
+  result,
+  clear,
+  playTestCode,
+  enterCharacter,
+}: GameProps): React.ReactElement => {
   return (
     <div id="game" className="flex flex-col grow gap-4">
       <div className="m-1 rounded-xl h-1/3 border-2 border-gray-200 flex flex-col justify-center items-center relative overflow-hidden select-none">
         <div className="flex flex-col bg-linear-to-b from-white via-95% via-gray-200 to-gray-200 justify-center items-center w-full h-full relative z-10 gap-3 p-4">
-          <div className="text-8xl sm:text-8xl lcd-display-text select-none">
+          <div className="text-7xl sm:text-7xl lcd-display-text select-none">
             {state}
           </div>
           <div className="h-6 flex items-center justify-center">
             {error ? (
-              <div className="lcd-subtext-error">{String(error.message || error)}</div>
+              <div className="lcd-subtext-error">
+                {String(error.message || error)}
+              </div>
             ) : result ? (
               <div className="lcd-subtext">{formatResult(result)}</div>
             ) : (
-              <div className="lcd-subtext text-slate-400 uppercase text-xs tracking-widest font-semibold select-none">Ready for code</div>
+              <div className="lcd-subtext text-slate-400 uppercase text-xs tracking-widest font-semibold select-none">
+                Ready for code
+              </div>
             )}
           </div>
         </div>
@@ -52,6 +61,5 @@ const Game = ({ error, state, result, clear, playTestCode, enterCharacter }: Gam
     </div>
   );
 };
-
 
 export default Game;

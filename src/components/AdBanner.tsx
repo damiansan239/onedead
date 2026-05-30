@@ -12,6 +12,7 @@ const AdBanner = ({
 }: AdBannerProps): React.ReactElement => {
   React.useEffect(() => {
     try {
+      // biome-ignore lint/suspicious/noAssignInExpressions: Need for google ads
       ((window.adsbygoogle = window.adsbygoogle || []).push({}));
     } catch (err) {
       console.error(err);
