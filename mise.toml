@@ -1,5 +1,8 @@
 [tools]
-bun = "latest"
-codex = "latest"
+yarn = "1"
 firebase = "latest"
-yarn = "latest"
+
+[tools."http:agy"]
+version = "1.0.3-6260531212976128"
+url = "https://storage.googleapis.com/antigravity-public/antigravity-cli/{version}/linux-x64/cli_linux_x64.tar.gz"
+rename_exe = "agy"
