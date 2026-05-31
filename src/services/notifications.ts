@@ -7,13 +7,34 @@ import {
   type Messaging,
 } from "firebase/messaging";
 
+import { getDatabase, ref, push } from "firebase/database";
+import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
+
 import { app } from "@/firebase";
 
 const useNotification = (): Messaging | null => {
   const [messaging, setMessaging] = React.useState<Messaging | null>(null);
+  const [currentUser, setCurrentUser] = React.useState<User | null>(null);
+
+  const auth = getAuth(app);
+  const database = getDatabase(app);
+  const msgInstance = getMessaging(app);
+
+  React.useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [auth]);
 
   React.useEffect(() => {
     let active = true;
+
 
     const initMessaging = async () => {
       try {
@@ -25,7 +46,6 @@ const useNotification = (): Messaging | null => {
           return;
         }
 
-        const msgInstance = getMessaging(app);
         if (!active) return;
         setMessaging(msgInstance);
 
@@ -50,6 +70,9 @@ const useNotification = (): Messaging | null => {
           const token = await getToken(msgInstance, {
             vapidKey: import.meta.env.VITE_VAPID_KEY,
           });
+
+          const userTokensRef = ref(database, `users/${currentUser?.uid}/tokens`);
+          push(userTokensRef, token);
           console.log("FCM Token obtained successfully:", token);
         } else {
           console.log(
@@ -62,12 +85,14 @@ const useNotification = (): Messaging | null => {
       }
     };
 
-    initMessaging();
+    if (currentUser) {
+      initMessaging();
+    }
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [currentUser, database, msgInstance]);
 
   return messaging;
 };

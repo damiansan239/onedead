@@ -13,8 +13,7 @@ import { setGlobalOptions } from "firebase-functions";
 import { onRequest } from "firebase-functions/v2/https";
 // import * as logger from "firebase-functions/logger";
 
-import dockerNames from './utils/docker-names';
-
+import dockerNames from "./utils/docker-names";
 
 admin.initializeApp({
   projectId: "one-dead",
@@ -27,7 +26,6 @@ setGlobalOptions({
   serviceAccount: "firebase-adminsdk-ly025@one-dead.iam.gserviceaccount.com",
 });
 
-
 export const generateUserToken = onRequest(
   { cors: true },
   (request, response) => {
@@ -36,12 +34,13 @@ export const generateUserToken = onRequest(
     getAuth()
       .createCustomToken(uid)
       .then((customToken) => {
-        response
-          .send(customToken)
-          .end();
+        response.send(customToken).end();
       })
       .catch((error) => {
-        console.log('Error creating custom token:', error);
+        console.log("Error creating custom token:", error);
       });
     // logger.info("Hello logs!", { structuredData: true });
-  });
+  },
+);
+
+export const createSessionRequest = onRequest(async (req, res) => {});

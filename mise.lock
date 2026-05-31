@@ -56,6 +56,10 @@ url = "https://nodejs.org/dist/v22.22.3/node-v22.22.3-darwin-x64.tar.gz"
 checksum = "sha256:6c8d54f635feff4df76c2ca80f45332eb2ff57d25226edce36592e51a177ee33"
 url = "https://nodejs.org/dist/v22.22.3/node-v22.22.3-win-x64.zip"
 
+[[tools."npm:firebase-tools"]]
+version = "15.19.0"
+backend = "npm:firebase-tools"
+
 [[tools.yarn]]
 version = "1.22.22"
 backend = "vfox:mise-plugins/vfox-yarn"

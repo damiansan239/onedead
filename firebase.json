@@ -44,8 +44,5 @@
         "yarn --cwd \"$RESOURCE_DIR\" run build"
       ]
     }
-  ],
-  "storage": {
-    "rules": "firebase/storage.rules"
-  }
+  ]
 }
