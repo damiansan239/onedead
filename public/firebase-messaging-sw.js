@@ -1,41 +1,47 @@
-/**
- * @license
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// Give the service worker access to Firebase Messaging.
+// Note that you can only use Firebase Messaging here. Other Firebase libraries
+// are not available in the service worker.
+// Replace 10.13.2 with latest version of the Firebase JS SDK.
+importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-app-compat.js');
+importScripts('https://www.gstatic.com/firebasejs/10.13.2/firebase-messaging-compat.js');
 
-importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-app-compat.js");
-importScripts("https://www.gstatic.com/firebasejs/9.2.0/firebase-messaging-compat.js");
+// Initialize the Firebase app in the service worker by passing in
+// your app's Firebase config object.
+// https://firebase.google.com/docs/web/setup#config-object
+firebase.initializeApp({
+  apiKey: "AIzaSyDM9TBuqog0Eqe-16w8o5RUCYpiBnsxUIs",
+  authDomain: "one-dead.firebaseapp.com",
+  databaseURL: "https://one-dead-default-rtdb.firebaseio.com",
+  projectId: "one-dead",
+  storageBucket: "one-dead.firebasestorage.app",
+  messagingSenderId: "143126746923",
+  appId: "1:143126746923:web:2437eb864c5726fdf7176e",
+  measurementId: "G-D5KDQW796R"
+});
 
-(async () => {
-  const response = await fetch("/__/firebase/init.json");
-  const firebaseConfig = await response.json();
+// Retrieve an instance of Firebase Messaging so that it can handle background
+// messages.
+const messaging = firebase.messaging();
 
-  firebase.initializeApp(firebaseConfig);
+messaging.onBackgroundMessage((payload) => {
+  console.log('[firebase-messaging-sw.js] Received background message ', payload);
 
-  // Retrieve firebase messaging
-  const messaging = firebase.messaging();
+  // Check if there are any active/open windows or tabs of this application.
+  // We use includeUncontrolled: true to capture any tabs of our origin.
+  return self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
+    if (clientList && clientList.length > 0) {
+      console.log('[firebase-messaging-sw.js] An application tab is open. Suppressing background notification.');
+      return;
+    }
 
-  messaging.onBackgroundMessage(payload => {
-    console.log("Received background message ", payload);
-
-    const notificationTitle = payload.notification.title;
+    // All tabs/windows are closed. Fire the background notification.
+    const notificationTitle = payload.notification?.title || 'Background Message Title';
     const notificationOptions = {
-      body: payload.notification.body,
+      body: payload.notification?.body || 'Background Message body.',
+      icon: payload.notification?.icon || '/favicon.ico',
+      data: payload.data,
     };
 
-    self.registration.showNotification(notificationTitle, notificationOptions);
+    return self.registration.showNotification(notificationTitle, notificationOptions);
   });
-})();
-
+});

@@ -1,7 +1,6 @@
 import React from "react";
 
-import {Dialog, Transition} from "@headlessui/react";
-
+import { Dialog, Transition } from "@headlessui/react";
 
 interface ModalProps {
   show: boolean;
@@ -10,11 +9,17 @@ interface ModalProps {
   onClickShare: () => void;
 }
 
-const Modal = ({show, elapsedTime, onClickShare, onClickRetry}: ModalProps): React.ReactElement => {
-
+const Modal = ({
+  show,
+  elapsedTime,
+  onClickShare,
+  onClickRetry,
+}: ModalProps): React.ReactElement => {
   const computeTime = (duration: number) => {
     const seconds = (duration % 60).toString().padStart(2, "0");
-    const minutes = (Math.floor(duration / 60) % 60).toString().padStart(2, "0");
+    const minutes = (Math.floor(duration / 60) % 60)
+      .toString()
+      .padStart(2, "0");
     return `${minutes}:${seconds}`;
   };
 
@@ -44,21 +49,31 @@ const Modal = ({show, elapsedTime, onClickShare, onClickRetry}: ModalProps): Rea
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel style={{width: "23rem"}} className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+              <Dialog.Panel
+                style={{ width: "23rem" }}
+                className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+              >
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
                     <div className="mx-auto flex p-9 h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                      <Dialog.Title as="h5" className="text-xl mt-1 text-green-700 leading-6">
+                      <Dialog.Title
+                        as="h5"
+                        className="text-xl mt-1 text-green-700 leading-6"
+                      >
                         {computeTime(elapsedTime)}
                       </Dialog.Title>
                     </div>
                     <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                      <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                      <Dialog.Title
+                        as="h3"
+                        className="text-base font-semibold leading-6 text-gray-900"
+                      >
                         Game completed
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          Thank you trying out this game one-dead. Please make sure to try again
+                          Thank you trying out this game one-dead. Please make
+                          sure to try again
                         </p>
                       </div>
                     </div>
@@ -88,6 +103,5 @@ const Modal = ({show, elapsedTime, onClickShare, onClickRetry}: ModalProps): Rea
     </Transition.Root>
   );
 };
-
 
 export default Modal;

@@ -39,7 +39,6 @@ class AppAnalytics {
       endTime: Date.now(),
     });
   }
-
 }
 
 export default AppAnalytics;

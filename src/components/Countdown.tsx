@@ -4,13 +4,20 @@ interface CountdownProps {
   onComplete: () => void;
 }
 
-const playBeep = (pitch: number, duration: number, type: OscillatorType = "sine") => {
+const playBeep = (
+  pitch: number,
+  duration: number,
+  type: OscillatorType = "sine",
+) => {
   const soundOn = localStorage.getItem("soundOn") !== "false";
   if (!soundOn) return;
 
   try {
     // @ts-expect-error
-    const AudioContext = window.AudioContext || (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    const AudioContext =
+      window.AudioContext ||
+      (window as Window & { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
     if (!AudioContext) return;
     const ctx = new AudioContext();
     const osc = ctx.createOscillator();
@@ -21,7 +28,10 @@ const playBeep = (pitch: number, duration: number, type: OscillatorType = "sine"
 
     // Exponential fade-out for a smooth premium tone and no clicks
     gain.gain.setValueAtTime(0.18, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration - 0.02);
+    gain.gain.exponentialRampToValueAtTime(
+      0.001,
+      ctx.currentTime + duration - 0.02,
+    );
 
     osc.connect(gain);
     gain.connect(ctx.destination);
@@ -29,7 +39,10 @@ const playBeep = (pitch: number, duration: number, type: OscillatorType = "sine"
     osc.start();
     osc.stop(ctx.currentTime + duration);
   } catch (e) {
-    console.warn("Audio Context playback failed or was blocked by browser policy:", e);
+    console.warn(
+      "Audio Context playback failed or was blocked by browser policy:",
+      e,
+    );
   }
 };
 
@@ -44,7 +57,7 @@ const Countdown = ({ onComplete }: CountdownProps): React.ReactElement => {
       playBeep(587.33, 0.25, "triangle");
     } else if (count === 0) {
       // Rich dual-tone synthesizer sweep for GO!
-      playBeep(880.00, 0.4, "triangle");
+      playBeep(880.0, 0.4, "triangle");
       setTimeout(() => {
         playBeep(1174.66, 0.6, "sine");
       }, 80);
@@ -88,18 +101,17 @@ const Countdown = ({ onComplete }: CountdownProps): React.ReactElement => {
 
   return (
     <div className="absolute bg-white inset-0 z-50 flex flex-col justify-center items-center select-none overflow-hidden">
-
-        {/* Dynamic Instructional Subtitle */}
-        <div className="h-6 flex items-center justify-center">
-          <p className="font-mono text-sm sm:text-base font-bold tracking-[0.2em] text-gray-600 drop-shadow-[0_0_10px_rgba(244,63,94,0.3)] uppercase">
-            {getSubText()}
-          </p>
-        </div>
+      {/* Dynamic Instructional Subtitle */}
+      <div className="h-6 flex items-center justify-center">
+        <p className="font-mono text-sm sm:text-base font-bold tracking-[0.2em] text-gray-600 drop-shadow-[0_0_10px_rgba(244,63,94,0.3)] uppercase">
+          {getSubText()}
+        </p>
+      </div>
       {/* Main Countdown Container */}
       <div className="flex flex-col items-center justify-center gap-6 z-10">
         {/* Large Glowing Number */}
         <div className="h-44 flex items-center justify-center">
-          <span 
+          <span
             key={key}
             className={`
               text-8xl sm:text-9xl font-black tracking-tight select-none
@@ -109,7 +121,6 @@ const Countdown = ({ onComplete }: CountdownProps): React.ReactElement => {
             {displayText}
           </span>
         </div>
-
       </div>
     </div>
   );

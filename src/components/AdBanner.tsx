@@ -6,14 +6,11 @@ interface AdBannerProps {
   adClient: string;
 }
 
-const AdBanner = ({
-  adSlot,
-  adClient,
-}: AdBannerProps): React.ReactElement => {
+const AdBanner = ({ adSlot, adClient }: AdBannerProps): React.ReactElement => {
   React.useEffect(() => {
     try {
       // biome-ignore lint/suspicious/noAssignInExpressions: Need for google ads
-      ((window.adsbygoogle = window.adsbygoogle || []).push({}));
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.error(err);
     }
@@ -25,8 +22,7 @@ const AdBanner = ({
       className="adsbygoogle"
       data-ad-client={adClient}
       style={{ display: "inline-block", width: "100%", height: "25vh" }}
-    >
-    </ins>
+    ></ins>
   );
 };
 

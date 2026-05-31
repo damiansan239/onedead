@@ -2,7 +2,7 @@ export type Code = string;
 
 export interface AppAction {
   value?: string;
-  type: "input" | "clear",
+  type: "input" | "clear";
 }
 
 export type AppState = string;
@@ -24,4 +24,3 @@ export interface IHistory {
   startTime: Date;
   trials: Array<Trial>;
 }
-

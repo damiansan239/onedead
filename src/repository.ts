@@ -1,7 +1,6 @@
-import Dexie, {Table} from "dexie";
+import Dexie, { Table } from "dexie";
 
-import {IHistory} from "@/game/types";
-
+import { IHistory } from "@/game/types";
 
 class SessionRepository extends Dexie {
   sessions: Table<IHistory, number>;

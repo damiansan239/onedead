@@ -1,4 +1,3 @@
-
 export enum PageVisibilityState {
   HIDDEN = "hidden",
   VISIBLE = "visible",
@@ -7,7 +6,9 @@ export enum PageVisibilityState {
 type Unsubscribe = () => void;
 
 export default class PageVisibilityService {
-  private visibilityChangeListeners: Array<(state: PageVisibilityState) => void> = [];
+  private visibilityChangeListeners: Array<
+    (state: PageVisibilityState) => void
+  > = [];
 
   constructor() {
     this.dispose = this.dispose.bind(this);
@@ -15,18 +16,27 @@ export default class PageVisibilityService {
     this.handleFocus = this.handleFocus.bind(this);
     this.notifyListeners = this.notifyListeners.bind(this);
     this.handleVisibilityChange = this.handleVisibilityChange.bind(this);
-    this.addVisibilityChangeListener = this.addVisibilityChangeListener.bind(this);
+    this.addVisibilityChangeListener =
+      this.addVisibilityChangeListener.bind(this);
 
     window.addEventListener("blur", this.handleBlur, false);
     window.addEventListener("focus", this.handleFocus, false);
-    document.addEventListener("visibilitychange", this.handleVisibilityChange, false);
+    document.addEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange,
+      false,
+    );
   }
 
   public dispose(): void {
     this.visibilityChangeListeners = [];
     window.removeEventListener("blur", this.handleBlur, false);
     window.removeEventListener("focus", this.handleFocus, false);
-    document.removeEventListener("visibilitychange", this.handleVisibilityChange, false);
+    document.removeEventListener(
+      "visibilitychange",
+      this.handleVisibilityChange,
+      false,
+    );
   }
 
   private handleVisibilityChange(): void {
@@ -49,17 +59,18 @@ export default class PageVisibilityService {
     this.notifyListeners(PageVisibilityState.VISIBLE);
   }
 
-  public addVisibilityChangeListener(listener: (state: PageVisibilityState) => void): Unsubscribe {
+  public addVisibilityChangeListener(
+    listener: (state: PageVisibilityState) => void,
+  ): Unsubscribe {
     this.visibilityChangeListeners.push(listener);
     return () => {
-      this.visibilityChangeListeners = this
-        .visibilityChangeListeners
-        .filter((item) => item !== listener);
+      this.visibilityChangeListeners = this.visibilityChangeListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
   private notifyListeners(state: PageVisibilityState): void {
     this.visibilityChangeListeners.forEach((listener) => listener(state));
   }
-
 }

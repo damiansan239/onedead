@@ -1,5 +1,9 @@
 import React from "react";
-import {QuestionMarkCircleIcon, SpeakerWaveIcon, SpeakerXMarkIcon} from "@heroicons/react/24/outline";
+import {
+  QuestionMarkCircleIcon,
+  SpeakerWaveIcon,
+  SpeakerXMarkIcon,
+} from "@heroicons/react/24/outline";
 
 import StartModal from "./startModal";
 import startupSoundService from "../services/startupSound";
@@ -18,7 +22,11 @@ interface DieProps {
   isRed?: boolean;
 }
 
-const Die = ({ letter, rotation, isRed = false }: DieProps): React.ReactElement => {
+const Die = ({
+  letter,
+  rotation,
+  isRed = false,
+}: DieProps): React.ReactElement => {
   return (
     <div
       className={`
@@ -26,17 +34,26 @@ const Die = ({ letter, rotation, isRed = false }: DieProps): React.ReactElement 
         shadow-[0_6px_10px_rgba(0,0,0,0.15),inset_0_-4px_0_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.6)]
         transition-all duration-300 ease-out hover:scale-110 hover:-translate-y-1.5 hover:rotate-0
         ${rotation}
-        ${isRed 
-          ? "bg-linear-to-br from-red-500 to-rose-700 text-white border border-red-800 hover:shadow-[0_12px_20px_rgba(239,68,68,0.3),inset_0_-4px_0_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.6)]" 
-          : "bg-linear-to-br from-white to-stone-200 text-stone-900 border border-stone-300 hover:shadow-[0_12px_20px_rgba(0,0,0,0.15),inset_0_-4px_0_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.6)]"
+        ${
+          isRed
+            ? "bg-linear-to-br from-red-500 to-rose-700 text-white border border-red-800 hover:shadow-[0_12px_20px_rgba(239,68,68,0.3),inset_0_-4px_0_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.6)]"
+            : "bg-linear-to-br from-white to-stone-200 text-stone-900 border border-stone-300 hover:shadow-[0_12px_20px_rgba(0,0,0,0.15),inset_0_-4px_0_rgba(0,0,0,0.2),inset_0_2px_4px_rgba(255,255,255,0.6)]"
         }
       `}
     >
       {/* 4 Corner Pips */}
-      <span className={`absolute top-2.5 left-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`} />
-      <span className={`absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`} />
-      <span className={`absolute bottom-2.5 left-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`} />
-      <span className={`absolute bottom-2.5 right-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`} />
+      <span
+        className={`absolute top-2.5 left-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`}
+      />
+      <span
+        className={`absolute top-2.5 right-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`}
+      />
+      <span
+        className={`absolute bottom-2.5 left-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`}
+      />
+      <span
+        className={`absolute bottom-2.5 right-2.5 h-1.5 w-1.5 rounded-full ${isRed ? "bg-red-300/60" : "bg-stone-400"}`}
+      />
 
       {/* The Letter */}
       <span className="relative z-10 font-serif tracking-tight">{letter}</span>
@@ -51,7 +68,11 @@ interface DiceButtonProps {
 }
 
 /** A wide rectangular button that looks like a physical die face */
-const DiceButton = ({ onClick, children, variant = "default" }: DiceButtonProps): React.ReactElement => {
+const DiceButton = ({
+  onClick,
+  children,
+  variant = "default",
+}: DiceButtonProps): React.ReactElement => {
   const isPrimary = variant === "primary";
 
   return (
@@ -63,11 +84,12 @@ const DiceButton = ({ onClick, children, variant = "default" }: DiceButtonProps)
         transition-all duration-150 ease-out
         focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400 focus-visible:ring-offset-2
         active:translate-y-0.75 active:shadow-[0_1px_0_rgba(0,0,0,0.15),inset_0_1px_3px_rgba(0,0,0,0.15)]
-        ${isPrimary
-          ? `bg-linear-to-b from-stone-900 to-stone-800 text-white border border-stone-950
+        ${
+          isPrimary
+            ? `bg-linear-to-b from-stone-900 to-stone-800 text-white border border-stone-950
              shadow-[0_5px_0_#111,0_8px_16px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]
              hover:from-stone-800 hover:to-stone-700`
-          : `bg-linear-to-b from-white to-stone-100 text-stone-800 border border-stone-300
+            : `bg-linear-to-b from-white to-stone-100 text-stone-800 border border-stone-300
              shadow-[0_5px_0_#c8c4be,0_8px_16px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.9)]
              hover:from-stone-50 hover:to-stone-200`
         }
@@ -75,23 +97,39 @@ const DiceButton = ({ onClick, children, variant = "default" }: DiceButtonProps)
     >
       {/* Corner pips — top-left */}
       <span className={`absolute top-2.5 left-3 flex gap-1`}>
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
       </span>
       {/* Corner pips — top-right */}
       <span className={`absolute top-2.5 right-3 flex gap-1`}>
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
       </span>
       {/* Corner pips — bottom-left */}
       <span className={`absolute bottom-2.5 left-3 flex gap-1`}>
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
       </span>
       {/* Corner pips — bottom-right */}
       <span className={`absolute bottom-2.5 right-3 flex gap-1`}>
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
-        <span className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`} />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
+        <span
+          className={`h-1.5 w-1.5 rounded-full ${isPrimary ? "bg-white/20" : "bg-stone-400/40"}`}
+        />
       </span>
 
       {/* Label */}
@@ -107,7 +145,8 @@ const HomeScreen = ({
   onStartNewGame,
   onHighScores,
 }: HomeScreenProps): React.ReactElement => {
-  const [showInstructions, setShowInstructions] = React.useState<boolean>(false);
+  const [showInstructions, setShowInstructions] =
+    React.useState<boolean>(false);
   const [soundOn, setSoundOn] = React.useState<boolean>(
     () => startupSoundService.isSoundEnabled,
   );
@@ -161,7 +200,11 @@ const HomeScreen = ({
                 { letter: "N", rotation: "rotate-[3deg]" },
                 { letter: "E", rotation: "-rotate-[4deg]" },
               ].map((die) => (
-                <Die key={die.letter} letter={die.letter} rotation={die.rotation} />
+                <Die
+                  key={die.letter}
+                  letter={die.letter}
+                  rotation={die.rotation}
+                />
               ))}
             </div>
 
@@ -172,8 +215,13 @@ const HomeScreen = ({
                 { letter: "E", rotation: "-rotate-[3deg]" },
                 { letter: "A", rotation: "rotate-[4deg]" },
                 { letter: "D", rotation: "-rotate-[6deg]" },
-              ].map((die) => (
-                <Die key={`${die.letter}-${die}`} letter={die.letter} rotation={die.rotation} isRed />
+              ].map((die, index) => (
+                <Die
+                  key={`${die.letter}-${index}`}
+                  letter={die.letter}
+                  rotation={die.rotation}
+                  isRed
+                />
               ))}
             </div>
           </div>
@@ -185,18 +233,14 @@ const HomeScreen = ({
           </DiceButton>
 
           {canContinue && (
-            <DiceButton onClick={onContinueGame}>
-              Continue
-            </DiceButton>
+            <DiceButton onClick={onContinueGame}>Continue</DiceButton>
           )}
 
-          <DiceButton onClick={onPlayMultiplayer}>
-            Multiplayer
-          </DiceButton>
+          <DiceButton onClick={onPlayMultiplayer}>Multiplayer</DiceButton>
 
-          <DiceButton onClick={onHighScores}>
-            High scores
-          </DiceButton>
+          <DiceButton onClick={onPlayMultiplayer}>Tournament</DiceButton>
+
+          <DiceButton onClick={onHighScores}>High scores</DiceButton>
         </section>
 
         <StartModal
@@ -208,6 +252,5 @@ const HomeScreen = ({
     </div>
   );
 };
-
 
 export default HomeScreen;

@@ -16,7 +16,7 @@ const AddFeed = ({
 }: AddFeedProps): React.ReactElement => {
   React.useEffect(() => {
     try {
-      ((window.adsbygoogle = window.adsbygoogle || []).push({}));
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.error(err);
     }
@@ -30,8 +30,7 @@ const AddFeed = ({
       data-ad-client={adClient}
       style={{ display: "block" }}
       data-ad-layout-key={adLayoutKey}
-    >
-    </ins>
+    ></ins>
   );
 };
 

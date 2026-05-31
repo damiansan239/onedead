@@ -1,6 +1,5 @@
 import { Result } from "@/game/types";
 
-
 export const formatResult = (result: Result) => {
   if (!result) return "";
 
@@ -8,7 +7,8 @@ export const formatResult = (result: Result) => {
     return "None";
   }
   const deadCount = result?.deadCount !== 0 ? `${result?.deadCount} dead` : "";
-  const injuredCount = result?.injuredCount != 0 ? `${result?.injuredCount} injured` : "";
+  const injuredCount =
+    result?.injuredCount != 0 ? `${result?.injuredCount} injured` : "";
 
   return deadCount + "  " + injuredCount;
 };

@@ -1,7 +1,6 @@
 import type { Code, Result, Trial, IHistory } from "./types";
 
 class Session {
-
   private completed = false;
   private readonly name: string;
   private readonly mainCode: Code;
@@ -72,7 +71,6 @@ class Session {
     return res;
   }
 
-
   public addTrial(testCode: Code, timestamp: number): Result {
     const result = this.calculate(this.mainCode, testCode);
 
@@ -93,7 +91,6 @@ class Session {
     return this.completed;
   }
 
-
   public getHistory(): IHistory {
     return {
       name: this.name,
@@ -102,9 +99,6 @@ class Session {
       startTime: this.startTime,
     };
   }
-
 }
 
-
 export default Session;
-

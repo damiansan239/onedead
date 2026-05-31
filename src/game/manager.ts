@@ -1,14 +1,11 @@
 import Session from "./session";
 import type { IHistory, Result } from "./types";
 
-
 const generateMainCode = () => {
-  return (Math.floor(1000 + (9999 - 1000) * Math.random())).toFixed();
+  return Math.floor(1000 + (9999 - 1000) * Math.random()).toFixed();
 };
 
-
 type Unsubscribe = () => void;
-
 
 class Stopwatch {
   private elapsedTime = 0;
@@ -17,7 +14,6 @@ class Stopwatch {
 
   private listeners: Array<(period: number) => void> = [];
   private stateChangeListeners: Array<(state: boolean) => void> = [];
-
 
   public start() {
     if (this.timer) {
@@ -39,21 +35,21 @@ class Stopwatch {
     }
   }
 
-  public addTimerStateListener(listener: (state: boolean) => void): Unsubscribe {
+  public addTimerStateListener(
+    listener: (state: boolean) => void,
+  ): Unsubscribe {
     this.stateChangeListeners.push(listener);
     return () => {
-      this.stateChangeListeners = this
-        .stateChangeListeners
-        .filter((item) => item !== listener);
+      this.stateChangeListeners = this.stateChangeListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
   public addListener(listener: (period: number) => void): Unsubscribe {
     this.listeners.push(listener);
     return () => {
-      this.listeners = this
-        .listeners
-        .filter((item) => item !== listener);
+      this.listeners = this.listeners.filter((item) => item !== listener);
     };
   }
 
@@ -98,9 +94,7 @@ class Stopwatch {
       return true;
     }
   }
-
 }
-
 
 class Manager {
   private readonly startTime: Date;
@@ -128,7 +122,10 @@ class Manager {
 
   public play(testCode: string) {
     try {
-      const res = this.session.addTrial(testCode, this.gameStopWatch.getElapsedTime());
+      const res = this.session.addTrial(
+        testCode,
+        this.gameStopWatch.getElapsedTime(),
+      );
       this.dispatchTrial(res);
 
       if (this.session.isComplete()) {
@@ -163,40 +160,44 @@ class Manager {
   public addTimerListener(listener: (period: number) => void): Unsubscribe {
     this.timerListeners.push(listener);
     return () => {
-      this.timerListeners = this
-        .timerListeners
-        .filter((item) => item !== listener);
+      this.timerListeners = this.timerListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
-  public addTimerStateListener(listener: (state: boolean) => void): Unsubscribe {
+  public addTimerStateListener(
+    listener: (state: boolean) => void,
+  ): Unsubscribe {
     return this.gameStopWatch.addTimerStateListener(listener);
   }
 
   public addErrorListener(listener: (result: Error) => void): Unsubscribe {
     this.errorListeners.push(listener);
     return () => {
-      this.errorListeners = this
-        .errorListeners
-        .filter((item) => item !== listener);
+      this.errorListeners = this.errorListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
   public addTrialListener(listener: (result: Result) => void): Unsubscribe {
     this.trialListeners.push(listener);
     return () => {
-      this.trialListeners = this
-        .trialListeners
-        .filter((item) => item !== listener);
+      this.trialListeners = this.trialListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
-  public addCompleteListener(listener: (history: IHistory) => void): Unsubscribe {
+  public addCompleteListener(
+    listener: (history: IHistory) => void,
+  ): Unsubscribe {
     this.completeListeners.push(listener);
     return () => {
-      this.completeListeners = this
-        .completeListeners
-        .filter((item) => item !== listener);
+      this.completeListeners = this.completeListeners.filter(
+        (item) => item !== listener,
+      );
     };
   }
 
@@ -235,6 +236,5 @@ class Manager {
     }
   }
 }
-
 
 export default Manager;

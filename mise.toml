@@ -1,6 +1,7 @@
 [tools]
 yarn = "1"
 firebase = "latest"
+node = "latest"
 
 [tools."http:agy"]
 version = "1.0.3-6260531212976128"

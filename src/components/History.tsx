@@ -11,7 +11,6 @@ const History = ({ manager }: HistoryProps): React.ReactElement => {
   return (
     <div id="history" className="flex flex-col grow gap-4 p-8">
       <table className="table-auto">
-
         <thead>
           <tr>
             <th>Time</th>
@@ -29,11 +28,9 @@ const History = ({ manager }: HistoryProps): React.ReactElement => {
             </tr>
           ))}
         </tbody>
-
       </table>
     </div>
   );
 };
-
 
 export default History;

@@ -1,6 +1,12 @@
 import React from "react";
 
-const Button = ({ children, onClick }: { children: React.ReactNode, onClick?: () => void }): React.ReactElement => {
+const Button = ({
+  children,
+  onClick,
+}: {
+  children: React.ReactNode;
+  onClick?: () => void;
+}): React.ReactElement => {
   return (
     <button
       type="button"

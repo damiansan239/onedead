@@ -23,7 +23,9 @@ const RANK_LABELS: Record<number, string> = {
   2: "🥉",
 };
 
-const HighScoresPage = ({ onBack }: HighScoresPageProps): React.ReactElement => {
+const HighScoresPage = ({
+  onBack,
+}: HighScoresPageProps): React.ReactElement => {
   const [scores, setScores] = React.useState<IHistory[]>([]);
   const [loading, setLoading] = React.useState(true);
 
@@ -37,7 +39,8 @@ const HighScoresPage = ({ onBack }: HighScoresPageProps): React.ReactElement => 
 
         const sorted = sessions
           .filter(
-            (s) => s.trials.length > 0 && s.trials.at(-1)?.result.deadCount === 4
+            (s) =>
+              s.trials.length > 0 && s.trials.at(-1)?.result.deadCount === 4,
           )
           .sort((a, b) => {
             const diff = a.trials.length - b.trials.length;
@@ -78,14 +81,21 @@ const HighScoresPage = ({ onBack }: HighScoresPageProps): React.ReactElement => 
               stroke="currentColor"
               className="h-5 w-5"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M15.75 19.5 8.25 12l7.5-7.5"
+              />
             </svg>
           </button>
           <h1 className="text-lg font-bold text-gray-900">High Scores</h1>
         </div>
 
         {/* Content */}
-        <div id="high-scores" className="flex flex-col grow gap-4 p-6 overflow-y-auto">
+        <div
+          id="high-scores"
+          className="flex flex-col grow gap-4 p-6 overflow-y-auto"
+        >
           {loading ? (
             <div className="flex flex-1 items-center justify-center text-sm text-gray-400">
               Loading…
@@ -93,17 +103,27 @@ const HighScoresPage = ({ onBack }: HighScoresPageProps): React.ReactElement => 
           ) : scores.length === 0 ? (
             <div className="flex flex-1 flex-col items-center justify-center gap-2 text-center">
               <span className="text-4xl">🏆</span>
-              <p className="text-sm font-medium text-gray-500">No completed games yet.</p>
+              <p className="text-sm font-medium text-gray-500">
+                No completed games yet.
+              </p>
               <p className="text-xs text-gray-400">Go set a record!</p>
             </div>
           ) : (
             <table className="table-auto w-full">
               <thead>
                 <tr className="border-b border-gray-100">
-                  <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-400 w-10">#</th>
-                  <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-400">Name</th>
-                  <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-400">Tries</th>
-                  <th className="pb-2 text-right text-xs font-semibold uppercase tracking-wide text-gray-400">Time</th>
+                  <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-400 w-10">
+                    #
+                  </th>
+                  <th className="pb-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    Name
+                  </th>
+                  <th className="pb-2 text-center text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    Tries
+                  </th>
+                  <th className="pb-2 text-right text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    Time
+                  </th>
                 </tr>
               </thead>
               <tbody>
