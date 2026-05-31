@@ -1,17 +1,17 @@
 {
   "hosting": {
     "public": "dist",
-    "predeploy": "yarn build",
+    "predeploy": "yarn --cwd \"$RESOURCE_DIR\" run build",
     "ignore": [
-      "firebase.json",
       "**/.*",
+      "firebase.json",
       "**/node_modules/**"
     ],
     "rewrites": [
       {
         "source": "**",
         "destination": "/index.html",
-        "pre-deploy": "yarn build"
+        "pre-deploy": "yarn --cwd \"$RESOURCE_DIR\" run build"
       }
     ]
   },
@@ -19,8 +19,8 @@
     "template": "firebase/remoteconfig.template.json"
   },
   "firestore": {
-    "database": "(default)",
     "location": "nam5",
+    "database": "(default)",
     "rules": "firebase/firestore.rules",
     "indexes": "firebase/firestore.indexes.json"
   },
