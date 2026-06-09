@@ -105,6 +105,7 @@ const GameLayout = (): React.ReactElement => {
           onClickShare={ctx.shareApp}
           elapsedTime={ctx.timeElapsed}
           onClickRetry={ctx.replayGame}
+          history={ctx.manager?.getGameHistory()}
         />
 
         {ctx.showModalDialog && (

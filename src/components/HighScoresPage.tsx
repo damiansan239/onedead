@@ -1,4 +1,5 @@
 import React from "react";
+
 import type { IHistory } from "@/game/types";
 import { sessionRepository } from "@/repository";
 
@@ -135,7 +136,7 @@ const HighScoresPage = ({
                     <td className="py-3 pr-2 text-left font-bold text-gray-400">
                       {RANK_LABELS[index] ?? index + 1}
                     </td>
-                    <td className="py-3 text-left font-semibold text-gray-900 truncate max-w-[140px]">
+                    <td className="py-3 text-left font-semibold text-gray-900 truncate max-w-35">
                       {score.name}
                     </td>
                     <td className="py-3 text-center text-gray-600">
