@@ -191,8 +191,12 @@ const AppContent = (): React.ReactElement => {
       setShouldClear(true);
     });
 
-    const unSubComplete = manager.addCompleteListener((history) => {
-      sessionRepository.sessions.add(history);
+    const unSubComplete = manager.addCompleteListener(async (history) => {
+      try {
+        await sessionRepository.sessions.add(history);
+      } catch (err) {
+        console.error("Failed to add completed session to repository:", err);
+      }
       setShowModal(true);
     });
 

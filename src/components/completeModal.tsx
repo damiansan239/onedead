@@ -1,19 +1,30 @@
 import { Dialog, Transition } from "@headlessui/react";
 import React from "react";
+import type { IHistory } from "@/game/types";
+import { sessionRepository } from "@/repository";
 
 interface ModalProps {
   show: boolean;
+  history?: IHistory;
   elapsedTime: number;
   onClickRetry: () => void;
   onClickShare: () => void;
 }
+
+const getCompletionTime = (history: IHistory): number => {
+  const lastTrial = history.trials.at(-1);
+  return lastTrial?.timestamp ?? 0;
+};
 
 const Modal = ({
   show,
   elapsedTime,
   onClickShare,
   onClickRetry,
+  history,
 }: ModalProps): React.ReactElement => {
+  const [userPosition, setUserPosition] = React.useState<number | null>(null);
+
   const computeTime = (duration: number) => {
     const seconds = (duration % 60).toString().padStart(2, "0");
     const minutes = (Math.floor(duration / 60) % 60)
@@ -21,6 +32,37 @@ const Modal = ({
       .padStart(2, "0");
     return `${minutes}:${seconds}`;
   };
+
+  React.useEffect(() => {
+    if (!show) return;
+
+    // Compute user position in the high scores
+    sessionRepository.sessions.toArray().then((sessions) => {
+      const sorted = sessions
+        .filter(
+          (s) => s.trials.length > 0 && s.trials.at(-1)?.result.deadCount === 4,
+        )
+        .sort((a, b) => {
+          const diff = a.trials.length - b.trials.length;
+          if (diff !== 0) return diff;
+          return getCompletionTime(a) - getCompletionTime(b);
+        });
+
+      // Inject the current session if not already in the repository
+      const exists = sorted.some((s) => s.name === history?.name);
+      if (!exists && history) {
+        sorted.push(history);
+        sorted.sort((a, b) => {
+          const diff = a.trials.length - b.trials.length;
+          if (diff !== 0) return diff;
+          return getCompletionTime(a) - getCompletionTime(b);
+        });
+      }
+
+      const position = sorted.findIndex((s) => s.name === history?.name);
+      setUserPosition(position >= 0 ? position + 1 : null);
+    });
+  }, [history?.name, show, history]);
 
   return (
     <Transition.Root show={show} as={React.Fragment}>
@@ -54,7 +96,7 @@ const Modal = ({
               >
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                   <div className="sm:flex sm:items-start">
-                    <div className="mx-auto flex p-9 h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                    <div className="mx-auto flex p-9 h-12 w-12 shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
                       <Dialog.Title
                         as="h5"
                         className="text-xl mt-1 text-green-700 leading-6"
@@ -69,7 +111,12 @@ const Modal = ({
                       >
                         Game completed
                       </Dialog.Title>
-                      <div className="mt-2">
+                      <div className="mt-2 space-y-2">
+                        <p className="text-sm text-gray-500">
+                          {userPosition
+                            ? `You ranked #${userPosition} on the leaderboard!`
+                            : "You didn't rank on the leaderboard. Try again to improve your score!"}
+                        </p>
                         <p className="text-sm text-gray-500">
                           Thank you trying out this game one-dead. Please make
                           sure to try again

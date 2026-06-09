@@ -1,7 +1,13 @@
 import Session from "./session";
 import type { IHistory, Result } from "./types";
 
+const DEVELOPMENT_MAIN_CODE = "1234";
+
 const generateMainCode = () => {
+  if (import.meta.env.DEV) {
+    return DEVELOPMENT_MAIN_CODE;
+  }
+
   return Math.floor(1000 + (9999 - 1000) * Math.random()).toFixed();
 };
 
