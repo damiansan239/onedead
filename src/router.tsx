@@ -1,13 +1,12 @@
-import React from "react";
+import type React from "react";
 import { createMemoryRouter, useOutletContext } from "react-router";
-
-import Game from "./components/Game";
-import History from "./components/History";
-import GameLayout from "./components/GameLayout";
-import HomeScreen from "./components/HomeScreen";
-import HighScoresPage from "./components/HighScoresPage";
-import type { AppState, Result } from "@/game/types";
 import type Manager from "@/game/manager";
+import type { AppState, Result } from "@/game/types";
+import Game from "./components/Game";
+import GameLayout from "./components/GameLayout";
+import HighScoresPage from "./components/HighScoresPage";
+import History from "./components/History";
+import HomeScreen from "./components/HomeScreen";
 
 // ---------------------------------------------------------------------------
 // Shared outlet context – provided by AppContent to all child routes.

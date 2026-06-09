@@ -1,12 +1,11 @@
-import React from "react";
 import {
   QuestionMarkCircleIcon,
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
 } from "@heroicons/react/24/outline";
-
-import StartModal from "./startModal";
+import React from "react";
 import startupSoundService from "../services/startupSound";
+import StartModal from "./startModal";
 
 interface HomeScreenProps {
   canContinue: boolean;
@@ -217,10 +216,10 @@ const HomeScreen = ({
                 { letter: "D", rotation: "-rotate-[6deg]" },
               ].map((die, index) => (
                 <Die
-                  key={`${die.letter}-${index}`}
+                  isRed
                   letter={die.letter}
                   rotation={die.rotation}
-                  isRed
+                  key={`${die.letter}-${index}`}
                 />
               ))}
             </div>

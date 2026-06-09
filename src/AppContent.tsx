@@ -1,63 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from "react";
-
 import {
   getAuth,
-  signInWithCustomToken,
   onAuthStateChanged,
+  signInWithCustomToken,
 } from "firebase/auth";
-
-import { customAlphabet } from "nanoid/non-secure";
-
+import React from "react";
+import { Outlet, useBlocker, useLocation, useNavigate } from "react-router";
 import Manager from "@/game/manager";
+import type { AppAction, AppState, Result } from "@/game/types";
 import AppAnalytics from "./analytics";
 import { sessionRepository } from "./repository";
-import { AppAction, AppState, Result } from "@/game/types";
+import type { AppOutletContext } from "./router";
 import PageVisibilityService from "./services/pageVisibility";
 import startupSoundService from "./services/startupSound";
-
-import { Outlet, useNavigate, useLocation, useBlocker } from "react-router";
-import type { AppOutletContext } from "./router";
-
-const generateName = (): string => {
-  const alphabet =
-    "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-  const nanoid = customAlphabet(alphabet, 16);
-  return nanoid();
-};
-
-const addValue = (input: string, value: string) => {
-  if (input.length !== 1) {
-    throw new Error("Input cannot be longer that one integer");
-  }
-
-  let numbers = "";
-  for (const v of value) {
-    if (v !== "_") {
-      numbers = numbers.concat(v);
-    } else {
-      break;
-    }
-  }
-
-  if (numbers.length !== 4) {
-    numbers = numbers.concat(input);
-  }
-
-  let remainder = 4 - numbers.length;
-  let spaces = remainder - 1;
-
-  while (remainder != 0) {
-    numbers = numbers.concat("_");
-    if (spaces) {
-      numbers = numbers.concat(" ");
-      spaces--;
-    }
-    remainder--;
-  }
-  return numbers;
-};
+import { addValue, generateName } from "./utils";
 
 const AppContent = (): React.ReactElement => {
   const reducer = (state: AppState, action: AppAction): AppState => {
@@ -257,8 +214,8 @@ const AppContent = (): React.ReactElement => {
 
   React.useEffect(() => {
     const isHome = location.pathname === "/";
-    const isHighScores = location.pathname === "/high-scores";
     const isHistory = location.pathname === "/game/history";
+    const isHighScores = location.pathname === "/high-scores";
 
     if (isHighScores) {
       return;
@@ -376,11 +333,11 @@ const AppContent = (): React.ReactElement => {
       window.location.reload();
     },
     shareApp: () => {
-      if (navigator["share"]) {
+      if (navigator.share) {
         navigator.share({
           title: "One dead game",
-          text: "A strategic guessing game",
           url: "https://one-dead.web.app",
+          text: "A strategic guessing game",
         });
       }
       AppAnalytics.share();
@@ -389,11 +346,5 @@ const AppContent = (): React.ReactElement => {
 
   return <Outlet context={outletContext} />;
 };
-
-declare global {
-  interface Window {
-    adsbygoogle: any[];
-  }
-}
 
 export default AppContent;

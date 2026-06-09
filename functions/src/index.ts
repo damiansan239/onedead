@@ -1,12 +1,3 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * import {onCall} from "firebase-functions/v2/https";
- * import {onDocumentWritten} from "firebase-functions/v2/firestore";
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
-
 import * as admin from "firebase-admin";
 import { getAuth } from "firebase-admin/auth";
 import { setGlobalOptions } from "firebase-functions";
@@ -28,7 +19,7 @@ setGlobalOptions({
 
 export const generateUserToken = onRequest(
   { cors: true },
-  (request, response) => {
+  (_request, response) => {
     const uid = dockerNames.getRandomName();
 
     getAuth()
@@ -42,5 +33,3 @@ export const generateUserToken = onRequest(
     // logger.info("Hello logs!", { structuredData: true });
   },
 );
-
-export const createSessionRequest = onRequest(async (req, res) => {});

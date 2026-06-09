@@ -1,14 +1,13 @@
-import React from "react";
+import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
+import { getDatabase, push, ref } from "firebase/database";
 import {
   getMessaging,
   getToken,
   isSupported,
-  onMessage,
   type Messaging,
+  onMessage,
 } from "firebase/messaging";
-
-import { getDatabase, ref, push } from "firebase/database";
-import { getAuth, onAuthStateChanged, type User } from "firebase/auth";
+import React from "react";
 
 import { app } from "@/firebase";
 
@@ -34,7 +33,6 @@ const useNotification = (): Messaging | null => {
 
   React.useEffect(() => {
     let active = true;
-
 
     const initMessaging = async () => {
       try {
@@ -71,7 +69,10 @@ const useNotification = (): Messaging | null => {
             vapidKey: import.meta.env.VITE_VAPID_KEY,
           });
 
-          const userTokensRef = ref(database, `users/${currentUser?.uid}/tokens`);
+          const userTokensRef = ref(
+            database,
+            `users/${currentUser?.uid}/tokens`,
+          );
           push(userTokensRef, token);
           console.log("FCM Token obtained successfully:", token);
         } else {

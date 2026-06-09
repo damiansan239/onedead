@@ -26,10 +26,4 @@ const AdBanner = ({ adSlot, adClient }: AdBannerProps): React.ReactElement => {
   );
 };
 
-declare global {
-  interface Window {
-    adsbygoogle: any[];
-  }
-}
-
 export default AdBanner;

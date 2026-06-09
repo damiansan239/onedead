@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment } from "react";
 
 import { useNavigate } from "react-router";
 

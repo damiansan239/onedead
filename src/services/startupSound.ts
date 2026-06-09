@@ -31,7 +31,7 @@ class StartupSoundService {
 
   /** Returns true when the user has sound enabled (persisted preference). */
   get isSoundEnabled(): boolean {
-    return localStorage.getItem(SOUND_PREF_KEY) !== "false";
+    return (localStorage.getItem(SOUND_PREF_KEY) ?? "false") !== "false";
   }
 
   /** Returns true when audio is currently playing. */

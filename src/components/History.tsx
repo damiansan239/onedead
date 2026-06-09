@@ -1,7 +1,6 @@
-import React from "react";
-
+import type React from "react";
+import type Manager from "@/game/manager";
 import { formatResult } from "../utils";
-import Manager from "@/game/manager";
 
 interface HistoryProps {
   manager: Manager | null;

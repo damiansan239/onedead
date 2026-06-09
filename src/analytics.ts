@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/complexity/noStaticOnlyClass: No need */
 import { logEvent } from "firebase/analytics";
 
 import { analytics } from "./firebase";

@@ -1,8 +1,7 @@
-import React from "react";
-
-import Button from "./Button";
-import { formatResult } from "../utils";
+import type React from "react";
 import type { AppState, Result } from "@/game/types";
+import { formatResult } from "../utils";
+import Button from "./Button";
 
 interface GameProps {
   state: AppState;

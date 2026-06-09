@@ -71,6 +71,7 @@ export default class PageVisibilityService {
   }
 
   private notifyListeners(state: PageVisibilityState): void {
+    // biome-ignore lint/suspicious/useIterableCallbackReturn: It does not return anything
     this.visibilityChangeListeners.forEach((listener) => listener(state));
   }
 }

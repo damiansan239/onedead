@@ -91,7 +91,6 @@ const Countdown = ({ onComplete }: CountdownProps): React.ReactElement => {
         return "CRACK THE PATTERN...";
       case 1:
         return "READY TO SCAN...";
-      case 0:
       default:
         return "FIND THE CODE!";
     }

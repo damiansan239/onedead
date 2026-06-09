@@ -1,4 +1,4 @@
-import type { Code, Result, Trial, IHistory } from "./types";
+import type { Code, IHistory, Result, Trial } from "./types";
 
 class Session {
   private completed = false;
@@ -34,7 +34,7 @@ class Session {
 
   private hasNonNumeric(code: string): boolean {
     for (const digit of code) {
-      if (Number.isNaN(Number.parseInt(digit))) {
+      if (Number.isNaN(Number.parseInt(digit, 10))) {
         return true;
       }
     }
@@ -63,7 +63,6 @@ class Session {
       for (let j = 0; j <= testCode.length - 1; j++) {
         if (mainCode[i] == testCode[j]) {
           res.injuredCount += 1;
-          continue;
         }
       }
     }

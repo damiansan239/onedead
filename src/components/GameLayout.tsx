@@ -1,16 +1,15 @@
-import React from "react";
+import type React from "react";
 import {
   Outlet,
-  useOutletContext,
-  useNavigate,
   useLocation,
+  useNavigate,
+  useOutletContext,
 } from "react-router";
-
+import type { AppOutletContext } from "../router";
 import Countdown from "./Countdown";
 import Modal from "./completeModal";
 import MyModal from "./modalDialog";
 import StartModal from "./startModal";
-import type { AppOutletContext } from "../router";
 
 /**
  * GameLayout renders the full /game/* shell:
@@ -102,10 +101,10 @@ const GameLayout = (): React.ReactElement => {
 
         <StartModal show={!ctx.started} onClickClose={ctx.startGame} />
         <Modal
-          elapsedTime={ctx.timeElapsed}
           show={ctx.showModal}
-          onClickRetry={ctx.replayGame}
           onClickShare={ctx.shareApp}
+          elapsedTime={ctx.timeElapsed}
+          onClickRetry={ctx.replayGame}
         />
 
         {ctx.showModalDialog && (
@@ -114,6 +113,7 @@ const GameLayout = (): React.ReactElement => {
             show={ctx.showModalDialog}
             onClickReset={ctx.replayGame}
             setShow={ctx.setShowModalDialog}
+            // biome-ignore lint/style/noNonNullAssertion: It should be available
             onClickPause={() => ctx.manager!.toggleTimer()}
             onClickInstructions={() => ctx.setStarted((res) => !res)}
           />

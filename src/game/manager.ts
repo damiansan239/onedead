@@ -114,9 +114,7 @@ class Manager {
         this.session = new Session(name, this.startTime, mainCode);
         this.startGameTimer();
         break;
-      } catch {
-        continue;
-      }
+      } catch {}
     }
   }
 

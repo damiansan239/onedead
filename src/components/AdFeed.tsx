@@ -16,6 +16,7 @@ const AddFeed = ({
 }: AddFeedProps): React.ReactElement => {
   React.useEffect(() => {
     try {
+      // biome-ignore lint/suspicious/noAssignInExpressions: Ignore this
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (err) {
       console.error(err);
@@ -33,11 +34,5 @@ const AddFeed = ({
     ></ins>
   );
 };
-
-declare global {
-  interface Window {
-    adsbygoogle: any[];
-  }
-}
 
 export default AddFeed;
