@@ -1,10 +1,6 @@
-import {
-  QuestionMarkCircleIcon,
-  SpeakerWaveIcon,
-  SpeakerXMarkIcon,
-} from "@heroicons/react/24/outline";
+import { QuestionMarkCircleIcon } from "@heroicons/react/24/outline";
+import { getBoolean, getRemoteConfig } from "firebase/remote-config";
 import React from "react";
-import startupSoundService from "../services/startupSound";
 import StartModal from "./startModal";
 
 interface HomeScreenProps {
@@ -13,6 +9,7 @@ interface HomeScreenProps {
   onPlayMultiplayer: () => void;
   onStartNewGame: () => void;
   onHighScores: () => void;
+  onSettings: () => void;
 }
 
 interface DieProps {
@@ -143,26 +140,13 @@ const HomeScreen = ({
   onPlayMultiplayer,
   onStartNewGame,
   onHighScores,
+  onSettings,
 }: HomeScreenProps): React.ReactElement => {
+  const remoteConfig = getRemoteConfig();
+  const showMultiplayer = getBoolean(remoteConfig, "show_multiplayer");
+  const showTournament = getBoolean(remoteConfig, "show_tournament");
   const [showInstructions, setShowInstructions] =
     React.useState<boolean>(false);
-  const [soundOn, setSoundOn] = React.useState<boolean>(
-    () => startupSoundService.isSoundEnabled,
-  );
-
-  const handleToggleSound = React.useCallback(() => {
-    setSoundOn((prev) => {
-      const next = !prev;
-      if (next) {
-        startupSoundService.resume();
-      } else {
-        startupSoundService.pause();
-      }
-      return next;
-    });
-  }, []);
-
-  const SoundIcon = soundOn ? SpeakerWaveIcon : SpeakerXMarkIcon;
 
   return (
     <div className="flex h-dvh w-screen items-center justify-center bg-gray-100">
@@ -176,17 +160,6 @@ const HomeScreen = ({
             className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 bg-white/70 text-stone-500 shadow-xs transition hover:bg-white hover:text-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
           >
             <QuestionMarkCircleIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
-
-          <button
-            type="button"
-            aria-pressed={soundOn}
-            onClick={handleToggleSound}
-            title={soundOn ? "Mute sound" : "Unmute sound"}
-            aria-label={soundOn ? "Mute sound" : "Unmute sound"}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-stone-200 bg-white/70 text-stone-500 shadow-xs transition hover:bg-white hover:text-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-stone-400"
-          >
-            <SoundIcon className="h-5 w-5" aria-hidden="true" />
           </button>
         </div>
 
@@ -235,11 +208,17 @@ const HomeScreen = ({
             <DiceButton onClick={onContinueGame}>Continue</DiceButton>
           )}
 
-          <DiceButton onClick={onPlayMultiplayer}>Multiplayer</DiceButton>
+          {showMultiplayer && (
+            <DiceButton onClick={onPlayMultiplayer}>Multiplayer</DiceButton>
+          )}
 
-          <DiceButton onClick={onPlayMultiplayer}>Tournament</DiceButton>
+          {showTournament && (
+            <DiceButton onClick={onPlayMultiplayer}>Tournament</DiceButton>
+          )}
 
           <DiceButton onClick={onHighScores}>High scores</DiceButton>
+
+          <DiceButton onClick={onSettings}>Settings</DiceButton>
         </section>
 
         <StartModal

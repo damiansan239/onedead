@@ -27,8 +27,10 @@ export const analytics = import.meta.env.PROD ? getAnalytics(app) : null;
 export const config = getRemoteConfig(app);
 
 config.defaultConfig = {
+  show_ads: true,
   show_history: false,
-  show_notifications: false,
+  show_multiplayer: true,
+  show_tournament: false,
 };
 
 fetchAndActivate(config);

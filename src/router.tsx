@@ -7,6 +7,7 @@ import GameLayout from "./components/GameLayout";
 import HighScoresPage from "./components/HighScoresPage";
 import History from "./components/History";
 import HomeScreen from "./components/HomeScreen";
+import Settings from "./components/Settings";
 
 // ---------------------------------------------------------------------------
 // Shared outlet context – provided by AppContent to all child routes.
@@ -20,6 +21,7 @@ export interface AppOutletContext {
   canContinue: boolean;
   playMultiplayer: () => void;
   navigateBack: () => void;
+  openSettings: () => void;
 
   // Game state
   manager: Manager | null;
@@ -61,6 +63,7 @@ const HomeRoute = () => {
       onContinueGame={ctx.continueGame}
       canContinue={ctx.canContinue}
       onPlayMultiplayer={ctx.playMultiplayer}
+      onSettings={ctx.openSettings}
     />
   );
 };
@@ -68,6 +71,11 @@ const HomeRoute = () => {
 const HighScoresRoute = () => {
   const ctx = useAppOutletContext();
   return <HighScoresPage onBack={ctx.navigateBack} />;
+};
+
+const SettingsRoute = () => {
+  const ctx = useAppOutletContext();
+  return <Settings onBack={ctx.navigateBack} />;
 };
 
 const GameRoute = () => {
@@ -120,6 +128,10 @@ export const router = createMemoryRouter([
       {
         path: "high-scores",
         element: <HighScoresRoute />,
+      },
+      {
+        path: "settings",
+        element: <SettingsRoute />,
       },
       {
         path: "game",

@@ -1,4 +1,5 @@
 import React from "react";
+import startupSoundService from "../services/startupSound";
 
 interface CountdownProps {
   onComplete: () => void;
@@ -9,8 +10,7 @@ const playBeep = (
   duration: number,
   type: OscillatorType = "sine",
 ) => {
-  const soundOn = localStorage.getItem("soundOn") !== "false";
-  if (!soundOn) return;
+  if (!startupSoundService.isSoundEnabled) return;
 
   try {
     // @ts-expect-error

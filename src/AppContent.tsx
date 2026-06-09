@@ -136,6 +136,10 @@ const AppContent = (): React.ReactElement => {
     navigate("/high-scores");
   }, [navigate]);
 
+  const openSettings = React.useCallback(() => {
+    navigate("/settings");
+  }, [navigate]);
+
   const navigateBack = React.useCallback(() => {
     navigate("/");
   }, [navigate]);
@@ -315,6 +319,7 @@ const AppContent = (): React.ReactElement => {
     canContinue: Boolean(manager),
     playMultiplayer,
     navigateBack,
+    openSettings,
     manager,
     error,
     state,
