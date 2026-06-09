@@ -34,8 +34,6 @@ const Modal = ({
   };
 
   React.useEffect(() => {
-    console.log("Computing user position for session:", history?.name);
-
     if (!show) return;
 
     // Compute user position in the high scores
