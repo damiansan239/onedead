@@ -150,7 +150,7 @@ const HomeScreen = ({
 
   return (
     <div className="flex h-dvh w-screen items-center justify-center bg-gray-100">
-      <main className="relative flex h-screen w-full flex-col justify-between overflow-hidden border-x-2 border-gray-300 bg-white px-6 py-8 sm:w-8/12 md:w-5/12">
+      <main className="relative flex h-screen w-full flex-col justify-between overflow-hidden border-x-2 border-gray-300 bg-white px-6 py-8 sm:w-8/12 md:w-5/12 animate-fade-in">
         <div className="absolute right-5 top-5 z-10 flex items-center gap-2">
           <button
             type="button"

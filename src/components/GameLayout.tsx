@@ -45,7 +45,7 @@ const GameLayout = (): React.ReactElement => {
           data-ad-client="ca-pub-6676760040468778"
         ></ins>
       </div>
-      <div className="relative flex bg-white flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-5/12">
+      <div className="relative flex bg-white flex-col h-screen pb-3 px-2 justify-center content-center border-gray-300 border-x-2 w-full sm:w-8/12 md:w-5/12 animate-fade-in">
         {ctx.countdownActive && (
           <Countdown onComplete={ctx.handleCountdownComplete} />
         )}

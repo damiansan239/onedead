@@ -66,7 +66,7 @@ const HighScoresPage = ({
 
   return (
     <div className="flex h-dvh w-screen items-center justify-center">
-      <main className="relative flex h-screen w-full flex-col overflow-hidden border-x-2 border-gray-300 sm:w-8/12 md:w-5/12">
+      <main className="relative flex h-screen w-full flex-col overflow-hidden border-x-2 border-gray-300 sm:w-8/12 md:w-5/12 animate-fade-in">
         {/* Navigation Bar (iOS style) */}
         <div className="relative flex h-11 items-center justify-between border-b border-gray-200/80 px-2 backdrop-blur-md">
           {/* Back button */}

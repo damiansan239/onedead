@@ -8,7 +8,7 @@ interface HistoryProps {
 
 const History = ({ manager }: HistoryProps): React.ReactElement => {
   return (
-    <div id="history" className="flex flex-col grow gap-4 p-8">
+    <div id="history" className="flex flex-col grow gap-4 p-8 animate-fade-in">
       <table className="table-auto">
         <thead>
           <tr>

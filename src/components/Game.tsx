@@ -21,7 +21,7 @@ const Game = ({
   enterCharacter,
 }: GameProps): React.ReactElement => {
   return (
-    <div id="game" className="flex flex-col grow gap-4">
+    <div id="game" className="flex flex-col grow gap-4 animate-fade-in">
       <div className="m-1 rounded-xl h-1/3 border-2 border-gray-200 flex flex-col justify-center items-center relative overflow-hidden select-none">
         <div className="flex flex-col bg-linear-to-b from-white via-95% via-gray-200 to-gray-200 justify-center items-center w-full h-full relative z-10 gap-3 p-4">
           <div className="text-7xl sm:text-7xl lcd-display-text select-none">
