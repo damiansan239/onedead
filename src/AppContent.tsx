@@ -334,7 +334,7 @@ const AppContent = (): React.ReactElement => {
     timeElapsed,
     replayGame: () => {
       AppAnalytics.replayGame();
-      window.location.reload();
+      navigate("/", { replace: true });
     },
     shareApp: () => {
       if (navigator.share) {
